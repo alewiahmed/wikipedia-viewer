@@ -167,6 +167,9 @@ class App extends Component {
             <button className="del" type="reset" />
           </form>
         </div>
+        {!search ? (
+          <p className="search-info">Click icon to search on wikipedia</p>
+        ) : null}
         {this.showError()}
         {this.showResults()}
         {this.showloading()}
