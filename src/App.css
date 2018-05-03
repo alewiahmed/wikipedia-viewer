@@ -1,5 +1,6 @@
 .App {
   height: 100%;
+  padding: 20px;
   display: flex;
   color: white;
   text-align: center;
@@ -7,6 +8,10 @@
   flex-direction: column;
   justify-content: center;
   background-color: #19273c;
+}
+
+.justify-to-top {
+  justify-content: flex-start;
 }
 
 .App-title {
