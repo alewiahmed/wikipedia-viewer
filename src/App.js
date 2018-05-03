@@ -4,7 +4,7 @@ import './App.css';
 class App extends Component {
   state = {
     text: '',
-    result: [],
+    results: [],
     search: false
   };
 
@@ -25,6 +25,45 @@ class App extends Component {
     }
   };
 
+  fetchDataFake = async () => {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve({
+          batchcomplete: '',
+          query: {
+            searchinfo: {
+              totalhits: 2,
+              suggestion: 'alawi',
+              suggestionsnippet: '<em>alawi</em>'
+            },
+            search: [
+              {
+                ns: 0,
+                title: 'Alawi (disambiguation)',
+                pageid: 27755921,
+                size: 1478,
+                wordcount: 189,
+                snippet:
+                  'Alawi (Arabic: علوي‎), also <span class="searchmatch">Alewi</span>, Alevi, Alavi, Alawid, or Alawite (French: Alaouite), means &quot;of or related to Ali&quot;, the Prophet Muhammad\'s nephew. It',
+                timestamp: '2018-02-17T08:43:55Z'
+              },
+              {
+                ns: 0,
+                title: '27 May 2013 Baghdad bombings',
+                pageid: 39524639,
+                size: 11225,
+                wordcount: 1092,
+                snippet:
+                  'in Abu Saida and Zab injured two civilians and a Sahwa member.   Kareem <span class="searchmatch">Alewi</span>, a member of the Iraqi Parliament representing the National Iraqi Alliance',
+                timestamp: '2017-06-30T13:01:49Z'
+              }
+            ]
+          }
+        });
+      }, 3000);
+    });
+  };
+
   fetchData = async text => {
     const URL = `http://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&prop=extracts&srsearch=${text}`;
     try {
@@ -42,14 +81,32 @@ class App extends Component {
 
   search = async () => {
     let { text } = this.state;
-    let result = await this.fetchData(text);
+    let results = await this.fetchDataFake();
+    // let results = await this.fetchData(text);
+    console.log(results);
     this.setState({
-      result: result.query.search
+      results: results.query.search
     });
   };
 
   reset = () => {
-    this.setState({ search: false });
+    this.setState({ search: false, results: [], text: '' });
+  };
+
+  showResults = () => {
+    let { results } = this.state;
+    if (!results.length) return null;
+    let list = results.map((result, index) => {
+      return (
+        <div className="single-result" key={index}>
+          <div>
+            <h4 className="title">{result.title}</h4>
+            <p>{result.snippet}</p>
+          </div>
+        </div>
+      );
+    });
+    return <div className="results-container">{list}</div>;
   };
 
   render() {
@@ -75,6 +132,7 @@ class App extends Component {
             <button className="del" type="reset" />
           </form>
         </div>
+        {this.showResults()}
       </div>
     );
   }
