@@ -32,6 +32,28 @@ a {
   animation: go-up 0.3s ease-in-out;
 }
 
+.error-container {
+  width: 80%;
+  padding: 15px;
+  display: flex;
+  max-width: 400px;
+  border-radius: 4px;
+  position: relative;
+  align-items: center;
+  justify-content: flex-start;
+  border: 2px solid #ff5722;
+  animation: go-up 0.3s ease-in-out;
+}
+
+.error-sign {
+  font-size: 30px;
+  color: #ff5722;
+  padding: 3px 16px;
+  margin-right: 20px;
+  border-radius: 100%;
+  border: 2px solid #ff5722;
+}
+
 @keyframes go-up {
   from {
     top: 100%;

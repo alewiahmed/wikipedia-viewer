@@ -4,10 +4,10 @@ import './App.css';
 class App extends Component {
   state = {
     text: '',
+    error: '',
     results: [],
     search: false,
-    loading: false,
-    error: ''
+    loading: false
   };
 
   inputChanged = e => {
@@ -72,38 +72,60 @@ class App extends Component {
       const fetchResult = fetch(URL);
       const response = await fetchResult;
       if (response.ok) {
-        return await response.json();
+        let json = await response.json();
+        return { response: json, searchTerm: text };
       } else {
         throw new Error('Something went wrong.');
       }
     } catch (e) {
-      console.log(e);
+      return { ok: false, error: e };
     }
   };
 
   search = async () => {
     let { text } = this.state;
     this.setState({ loading: true });
-    let results = await this.fetchDataFake();
-    this.setState({ loading: false });
-    // let results = await this.fetchData(text);
+    let results = await this.fetchData(text);
+    if (!this.state.loading || this.state.text !== results.searchTerm) return;
     console.log(results);
+    this.setState({ loading: false });
+    if (results.error) {
+      this.setState({ error: 'Something went wrong.' });
+      return;
+    }
     this.setState({
-      results: results.query.search
+      results: results.response.query.search
     });
   };
 
   reset = () => {
-    this.setState({ search: false, results: [], text: '', loading: false });
+    this.setState({
+      text: '',
+      error: '',
+      results: [],
+      search: false,
+      loading: false
+    });
   };
 
   showloading = () => {
     let { loading } = this.state;
     if (!loading) return null;
     return (
-      <div class="spinner">
-        <div class="cube1" />
-        <div class="cube2" />
+      <div className="spinner">
+        <div className="cube1" />
+        <div className="cube2" />
+      </div>
+    );
+  };
+
+  showError = () => {
+    let { error } = this.state;
+    if (error === '') return null;
+    return (
+      <div className="error-container">
+        <span className="error-sign">!</span>
+        <p>{error}</p>
       </div>
     );
   };
@@ -149,6 +171,7 @@ class App extends Component {
         </div>
         {this.showResults()}
         {this.showloading()}
+        {this.showError()}
       </div>
     );
   }
