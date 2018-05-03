@@ -5,7 +5,9 @@ class App extends Component {
   state = {
     text: '',
     results: [],
-    search: false
+    search: false,
+    loading: false,
+    error: ''
   };
 
   inputChanged = e => {
@@ -81,7 +83,9 @@ class App extends Component {
 
   search = async () => {
     let { text } = this.state;
+    this.setState({ loading: true });
     let results = await this.fetchDataFake();
+    this.setState({ loading: false });
     // let results = await this.fetchData(text);
     console.log(results);
     this.setState({
@@ -90,7 +94,18 @@ class App extends Component {
   };
 
   reset = () => {
-    this.setState({ search: false, results: [], text: '' });
+    this.setState({ search: false, results: [], text: '', loading: false });
+  };
+
+  showloading = () => {
+    let { loading } = this.state;
+    if (!loading) return null;
+    return (
+      <div class="spinner">
+        <div class="cube1" />
+        <div class="cube2" />
+      </div>
+    );
   };
 
   showResults = () => {
@@ -133,6 +148,7 @@ class App extends Component {
           </form>
         </div>
         {this.showResults()}
+        {this.showloading()}
       </div>
     );
   }
