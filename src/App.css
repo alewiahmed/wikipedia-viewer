@@ -19,3 +19,112 @@ a {
   letter-spacing: 1px;
   text-decoration: none;
 }
+
+.form-container {
+  margin: 25px;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.inputbox {
+  height: 50px;
+  width: 300px;
+}
+.inputbox input {
+  top: 0;
+  left: 50%;
+  width: 50px;
+  min-width: 0;
+  color: inherit;
+  font-size: 16px;
+  cursor: pointer;
+  background: none;
+  padding: 14.5px 0;
+  position: absolute;
+  border-radius: 100%;
+  padding-right: 50px;
+  font-weight: lighter;
+  box-sizing: border-box;
+  border: 2px solid #ff5722;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 1px #ff5722;
+  transition: width 0.4s ease-in-out, border-radius 0.4s ease-in-out,
+    padding 0.2s;
+  transition-delay: 0s, 0.4s, 0s;
+}
+.inputbox input:focus,
+.inputbox input:valid {
+  width: 100%;
+  outline: 0;
+  cursor: text;
+  border-radius: 0;
+  padding-left: 16.5px;
+  transition-delay: 0.4s, 0s, 0.4s;
+}
+.inputbox input:focus + .del,
+.inputbox input:valid + .del {
+  pointer-events: all;
+  transition-delay: 0.4s;
+  left: calc(100% - 25px);
+}
+.inputbox input:focus + .del:focus,
+.inputbox input:valid + .del:focus {
+  width: 37.5px;
+  height: 37.5px;
+}
+.inputbox input:focus + .del:before,
+.inputbox input:valid + .del:before {
+  transition-delay: 0s;
+  transform: translate(-50%, -50%) rotate(-45deg) scaleY(0.7);
+}
+.inputbox input:focus + .del:after,
+.inputbox input:valid + .del:after {
+  transform: translate(-50%, -50%) rotate(45deg) scaleY(0.7);
+  transition-delay: 0.2s;
+}
+.inputbox .del {
+  top: 50%;
+  left: 50%;
+  border: 0;
+  padding: 0;
+  width: 50px;
+  height: 50px;
+  outline: none;
+  color: inherit;
+  cursor: pointer;
+  background: none;
+  position: absolute;
+  border-radius: 100%;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: left 0.4s ease-in-out;
+  transition-delay: 0s;
+}
+.inputbox .del:focus {
+  outline: none;
+}
+.inputbox .del:before {
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  content: '';
+  height: 35.5px;
+  position: absolute;
+  background: #ff5722;
+  transform: translate(32.25px, 32.25px) translate(-50%, -50%) rotate(-45deg)
+    scaleY(1);
+  transition: transform 0.2s ease-in-out;
+  transition-delay: 0.6s;
+}
+.inputbox .del:after {
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  content: '';
+  height: 35.5px;
+  position: absolute;
+  background: #ff5722;
+  transition: transform 0.2s ease-in-out;
+  transform: translate(-50%, -50%) rotate(45deg) scaleY(0);
+  transition-delay: 0.4s;
+}
