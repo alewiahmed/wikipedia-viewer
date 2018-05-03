@@ -7,7 +7,8 @@ class App extends Component {
     error: '',
     results: [],
     search: false,
-    loading: false
+    loading: false,
+    emptyResult: false
   };
 
   inputChanged = e => {
@@ -22,7 +23,9 @@ class App extends Component {
     if (text !== '') {
       this.setState({
         results: [],
-        search: true
+        search: true,
+        loading: false,
+        emptyResult: false
       });
       this.search();
     }
@@ -92,8 +95,13 @@ class App extends Component {
     let results = await this.fetchData(text);
     // let results = await this.fetchDataFake(text);
     if (!this.state.loading || this.state.text !== results.searchTerm) return;
-    console.log(results);
     this.setState({ loading: false });
+    if (!results.response.query.search.length) {
+      this.setState({
+        emptyResult: true
+      });
+      return;
+    }
     if (results.error) {
       this.setState({ error: 'Something went wrong.' });
       return;
@@ -109,7 +117,8 @@ class App extends Component {
       error: '',
       results: [],
       search: false,
-      loading: false
+      loading: false,
+      emptyResult: false
     });
   };
 
@@ -131,6 +140,16 @@ class App extends Component {
       <div className="error-container">
         <span className="error-sign">!</span>
         <p>{error}</p>
+      </div>
+    );
+  };
+
+  showEmptyMessage = () => {
+    let { emptyResult } = this.state;
+    if (!emptyResult) return null;
+    return (
+      <div className="error-container align-center">
+        <p>No result found for your search term.</p>
       </div>
     );
   };
@@ -191,9 +210,10 @@ class App extends Component {
             <button className="del" type="reset" />
           </form>
         </div>
+        {this.showError()}
         {this.showResults()}
         {this.showloading()}
-        {this.showError()}
+        {this.showEmptyMessage()}
       </div>
     );
   }

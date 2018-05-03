@@ -7,7 +7,6 @@
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  background-color: #19273c;
 }
 
 .justify-to-top {
@@ -28,7 +27,7 @@ a {
 .results-container {
   width: 83%;
   padding: 20px;
-  position: relative;
+  /* position: relative; */
   animation: go-up 0.3s ease-in-out;
 }
 
@@ -54,6 +53,10 @@ a {
   border: 2px solid #ff5722;
 }
 
+.align-center {
+  justify-content: center;
+}
+
 @keyframes go-up {
   from {
     top: 100%;
@@ -68,7 +71,7 @@ a {
   text-align: left;
   padding: 5px 20px;
   border-radius: 4px;
-  position: relative;
+  /* position: relative; */
   margin-bottom: 20px;
   word-wrap: break-word;
   border: 2px solid #ff5722;
