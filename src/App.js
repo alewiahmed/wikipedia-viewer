@@ -135,12 +135,20 @@ class App extends Component {
     if (!results.length) return null;
     let list = results.map((result, index) => {
       return (
-        <div className="single-result" key={index}>
-          <div>
-            <h4 className="title">{result.title}</h4>
-            <p>{result.snippet}</p>
+        <a
+          key={index}
+          target="_blank"
+          href={`https://en.wikipedia.org/wiki/${encodeURIComponent(
+            result.title
+          )}`}
+        >
+          <div className="single-result">
+            <div>
+              <h4 className="title">{result.title}</h4>
+              <p>{result.snippet}</p>
+            </div>
           </div>
-        </div>
+        </a>
       );
     });
     return <div className="results-container">{list}</div>;
