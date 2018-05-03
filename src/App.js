@@ -21,46 +21,50 @@ class App extends Component {
     e.preventDefault();
     if (text !== '') {
       this.setState({
+        results: [],
         search: true
       });
       this.search();
     }
   };
 
-  fetchDataFake = async () => {
+  fetchDataFake = async text => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         resolve({
-          batchcomplete: '',
-          query: {
-            searchinfo: {
-              totalhits: 2,
-              suggestion: 'alawi',
-              suggestionsnippet: '<em>alawi</em>'
-            },
-            search: [
-              {
-                ns: 0,
-                title: 'Alawi (disambiguation)',
-                pageid: 27755921,
-                size: 1478,
-                wordcount: 189,
-                snippet:
-                  'Alawi (Arabic: علوي‎), also <span class="searchmatch">Alewi</span>, Alevi, Alavi, Alawid, or Alawite (French: Alaouite), means &quot;of or related to Ali&quot;, the Prophet Muhammad\'s nephew. It',
-                timestamp: '2018-02-17T08:43:55Z'
+          response: {
+            batchcomplete: '',
+            query: {
+              searchinfo: {
+                totalhits: 2,
+                suggestion: 'alawi',
+                suggestionsnippet: '<em>alawi</em>'
               },
-              {
-                ns: 0,
-                title: '27 May 2013 Baghdad bombings',
-                pageid: 39524639,
-                size: 11225,
-                wordcount: 1092,
-                snippet:
-                  'in Abu Saida and Zab injured two civilians and a Sahwa member.   Kareem <span class="searchmatch">Alewi</span>, a member of the Iraqi Parliament representing the National Iraqi Alliance',
-                timestamp: '2017-06-30T13:01:49Z'
-              }
-            ]
-          }
+              search: [
+                {
+                  ns: 0,
+                  title: 'Alawi (disambiguation)',
+                  pageid: 27755921,
+                  size: 1478,
+                  wordcount: 189,
+                  snippet:
+                    'Alawi (Arabic: علوي‎), also <span class="searchmatch">Alewi</span>, Alevi, Alavi, Alawid, or Alawite (French: Alaouite), means &quot;of or related to Ali&quot;, the Prophet Muhammad\'s nephew. It',
+                  timestamp: '2018-02-17T08:43:55Z'
+                },
+                {
+                  ns: 0,
+                  title: '27 May 2013 Baghdad bombings',
+                  pageid: 39524639,
+                  size: 11225,
+                  wordcount: 1092,
+                  snippet:
+                    'in Abu Saida and Zab injured two civilians and a Sahwa member.   Kareem <span class="searchmatch">Alewi</span>, a member of the Iraqi Parliament representing the National Iraqi Alliance',
+                  timestamp: '2017-06-30T13:01:49Z'
+                }
+              ]
+            }
+          },
+          searchTerm: text
         });
       }, 3000);
     });
@@ -86,6 +90,7 @@ class App extends Component {
     let { text } = this.state;
     this.setState({ loading: true });
     let results = await this.fetchData(text);
+    // let results = await this.fetchDataFake(text);
     if (!this.state.loading || this.state.text !== results.searchTerm) return;
     console.log(results);
     this.setState({ loading: false });
@@ -145,13 +150,22 @@ class App extends Component {
           <div className="single-result">
             <div>
               <h4 className="title">{result.title}</h4>
-              <p>{result.snippet}</p>
+              <p>{this.fixText(result.snippet)}</p>
             </div>
           </div>
         </a>
       );
     });
     return <div className="results-container">{list}</div>;
+  };
+
+  fixText = text => {
+    return String(text)
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/(<([^>]+)>)/gi, '');
   };
 
   render() {
