@@ -32,7 +32,7 @@ class App extends Component {
   };
 
   fetchData = async text => {
-    const URL = `http://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&prop=extracts&srsearch=${text}`;
+    const URL = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&prop=extracts&srsearch=${text}`;
     try {
       const fetchResult = fetch(URL);
       const response = await fetchResult;
