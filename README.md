@@ -1,4 +1,4 @@
-# Wikipedia Viewer create with react
+# Wikipedia Viewer created with react
 
 Wikipedia Viewer made for the Free Code Camp's Front End Development Course.
 
