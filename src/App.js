@@ -119,6 +119,7 @@ class App extends Component {
         <a
           key={index}
           target="_blank"
+          rel="noopener noreferrer"
           href={`https://en.wikipedia.org/wiki/${encodeURIComponent(
             result.title
           )}`}
